@@ -468,6 +468,9 @@
             }
             scene.primitives.add(new Cesium.GroundPrimitive({
                 geometryInstances: allGeometryInstances,
+                allowPicking: false,
+                interleave: true,
+                compressVertices: false,
             }));
 
         }
