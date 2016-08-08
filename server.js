@@ -6,8 +6,8 @@
     var bodyParser = require('body-parser');
     var compression = require('compression');
     var url = require('url');
-    var request = require('request');
-
+    var req = require('request');
+    var async = require('async');
     var yargs = require('yargs').options({
         'port': {
             'default': 5000,
@@ -99,11 +99,48 @@
         if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
             opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid, 'diagramid': request.query.diagramid };
 
+            var baseurl = 'https://www.geodesignhub.com/api/v1/projects/' + projectid + '/diagrams/' + diagramid + '/';
+            // var baseurl = 'http://local.dev:8000/api/v1/projects/';
+            var apikey = request.query.apitoken;
+            var cred = "Token " + apikey;
+            var projectid = request.query.projectid;
+            var diagramid = request.query.diagramid;
+            var diagramdetailurl = baseurl + projectid + '/diagrams/' + diagramid + '/';
+
+            var URLS = [diagramdetailurl];
+
+            async.map(URLS, function(url, done) {
+                req({
+                    url: url,
+                    headers: {
+                        "Authorization": cred,
+                        "Content-Type": "application/json"
+                    }
+                }, function(err, response, body) {
+                    if (err || response.statusCode !== 200) {
+                        return done(err || new Error());
+                    }
+                    return done(null, JSON.parse(body));
+                });
+            }, function(err, results) {
+                var gj = JSON.stringify(results[0]['geojson']);
+                // console.log(gj);
+
+                if (err) return response.sendStatus(500);
+                // response.contentType('application/json');
+                // response.send({
+                // "status": 1,
+                // "results": results
+                // });
+                opts['result'] = gj;
+                response.render('index', opts);
+            });
+
         } else {
             opts = { 'apitoken': '0', 'projectid': '0', 'diagramid': '0' };
-
+            response.render('index', opts);
         }
-        response.render('index', opts);
+
     });
 
 

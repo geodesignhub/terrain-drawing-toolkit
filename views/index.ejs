@@ -480,12 +480,15 @@
         var apitoken = "<%= apitoken  %>";  //var test is now assigned to getTest which will only work on browsers
         var projectid ="<%= projectid %>";  //var test is now assigned to getTest which will only work on browsers  
         var diagramid ="<%= diagramid %>";  //var test is now assigned to getTest which will only work on browsers  
-        
+        var gjresults = <%- result %>;
         (function(){
-            if (apitoken !=="0" && projectid !=="0" && diagramid !=="0")
-                {
-                console.log(apitoken, projectid, diagramid);
-                   
+            if (apitoken !=="0" && projectid !=="0" && diagramid !=="0") {
+                    console.log(apitoken, projectid, diagramid);  
+                    if (gjresults.features.length > 0)
+                    {                  
+                        $("#gjTA").text(JSON.stringify(gjresults));
+                        submitGJ();
+                    }
                 }    
         })();
     </script>
