@@ -3,6 +3,7 @@
     /*jshint node:true*/
 
     var express = require('express');
+    var bodyParser = require('body-parser');
     var compression = require('compression');
     var url = require('url');
     var request = require('request');
@@ -47,7 +48,13 @@
 
     var app = express();
     app.use(compression());
-    app.use(express.static(__dirname));
+
+    app.use(express.static(__dirname + '/public'));
+    app.use('/assets', express.static('static'));
+    app.use(bodyParser.urlencoded({
+        extended: false
+    }));
+    app.use(bodyParser.json())
 
     function getRemoteUrlFromParam(req) {
         var remoteUrl = req.params[0];
@@ -84,9 +91,13 @@
         });
     }
 
+    app.get('/', function(req, res, next) {
+        res.sendfile('public/index.html');
+    });
     app.get('/proxy/*', function(req, res, next) {
         // look for request like http://localhost:8080/proxy/http://example.com/file?query=1
         var remoteUrl = getRemoteUrlFromParam(req);
+        console.log(remoteUrl);
         if (!remoteUrl) {
             // look for request like http://localhost:8080/proxy/?http%3A%2F%2Fexample.com%2Ffile%3Fquery%3D1
             remoteUrl = Object.keys(req.query)[0];
@@ -127,7 +138,14 @@
         });
     });
 
-    var server = app.listen(process.env.PORT || 5000); // for Heroku
+    var server = app.listen(process.env.PORT || 5000, argv.public ? undefined : 'localhost', function() {
+        if (argv.public) {
+            console.log('Cesium development server running publicly.  Connect to http://localhost:%d/', server.address().port);
+        } else {
+            console.log('Cesium development server running locally.  Connect to http://localhost:%d/', server.address().port);
+        }
+    });
+
 
     server.on('error', function(e) {
         if (e.code === 'EADDRINUSE') {
@@ -144,19 +162,19 @@
     });
 
     server.on('close', function() {
-        console.log('Server stopped.');
+        console.log('Cesium development server stopped.');
     });
 
     var isFirstSig = true;
     process.on('SIGINT', function() {
         if (isFirstSig) {
-            console.log('Server shutting down.');
+            console.log('Cesium development server shutting down.');
             server.close(function() {
                 process.exit(0);
             });
             isFirstSig = false;
         } else {
-            console.log('Server force kill.');
+            console.log('Cesium development server force kill.');
             process.exit(1);
         }
     });

@@ -115,13 +115,13 @@
             font-size: 12px;
         }
     </style>
-    <link rel="stylesheet" href="js/humane/flatty.css">
-    <script type="text/javascript" src="js/geojsonlint/geojsonlint.js"></script>
-    <script type="text/javascript" src="js/humane/humane.min.js">
+    <link rel="stylesheet" href="/assets/js/humane/flatty.css">
+    <script type="text/javascript" src="/assets/js/geojsonlint/geojsonlint.js"></script>
+    <script type="text/javascript" src="/assets/js/humane/humane.min.js">
     </script>
-    <script src="../Build/Cesium/Cesium.js"></script>
+    <script src="/assets/Build/Cesium/Cesium.js"></script>
     <style>
-        @import url(../Build/Cesium/Widgets/widgets.css);
+        @import url(/assets/Build/Cesium/Widgets/widgets.css);
     </style>
 </head>
 
@@ -354,7 +354,7 @@
             humane.log("Processing..", {
                 addnCls: 'humane-flatty-info'
             });
-            var threeDWorker = new Worker('workers/3dlib.js');
+            var threeDWorker = new Worker('/assets/workers/3dlib.js');
             threeDWorker.onerror = function(e) {
                 console.log('Error: Line ' + e.lineno + ' in ' + e.filename + ': ' + e.message);
             };
