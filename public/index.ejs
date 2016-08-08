@@ -475,7 +475,19 @@
 
         }
     </script>
-    
+     <script>
+        var apitoken = "<%= apitoken  %>";  //var test is now assigned to getTest which will only work on browsers
+        var projectid ="<%= projectid %>";  //var test is now assigned to getTest which will only work on browsers  
+        var diagramid ="<%= diagramid %>";  //var test is now assigned to getTest which will only work on browsers  
+        
+        $(function(){
+            if (apitoken !=="0" && projectid !=="0" && diagramid !=="0")
+                {
+                console.log(apitoken, projectid, diagramid);
+                   
+                }    
+        });
+    </script>
 </body>
 
 </html>

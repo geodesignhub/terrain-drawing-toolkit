@@ -54,7 +54,9 @@
     app.use(bodyParser.urlencoded({
         extended: false
     }));
-    app.use(bodyParser.json())
+    app.use(bodyParser.json());
+    var ejs = require('ejs');
+    app.set('view engine', 'ejs');
 
     function getRemoteUrlFromParam(req) {
         var remoteUrl = req.params[0];
@@ -91,52 +93,19 @@
         });
     }
 
-    app.get('/', function(req, res, next) {
-        res.sendfile('public/index.html');
+    app.get('/', function(request, response) {
+        var opts = {};
+        if (request.query.apitoken && request.query.projectid) {
+            opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid };
+
+        } else {
+            opts = { 'apitoken': '0', 'projectid': '0' };
+
+        }
+
+        res.render('index', opts);
     });
-    app.get('/proxy/*', function(req, res, next) {
-        // look for request like http://localhost:8080/proxy/http://example.com/file?query=1
-        var remoteUrl = getRemoteUrlFromParam(req);
-        console.log(remoteUrl);
-        if (!remoteUrl) {
-            // look for request like http://localhost:8080/proxy/?http%3A%2F%2Fexample.com%2Ffile%3Fquery%3D1
-            remoteUrl = Object.keys(req.query)[0];
-            if (remoteUrl) {
-                remoteUrl = url.parse(remoteUrl);
-            }
-        }
 
-        if (!remoteUrl) {
-            return res.status(400).send('No url specified.');
-        }
-
-        if (!remoteUrl.protocol) {
-            remoteUrl.protocol = 'http:';
-        }
-
-        var proxy;
-        if (upstreamProxy && !(remoteUrl.host in bypassUpstreamProxyHosts)) {
-            proxy = upstreamProxy;
-        }
-
-        // encoding : null means "body" passed to the callback will be raw bytes
-
-        request.get({
-            url: url.format(remoteUrl),
-            headers: filterHeaders(req, req.headers),
-            encoding: null,
-            proxy: proxy
-        }, function(error, response, body) {
-            var code = 500;
-
-            if (response) {
-                code = response.statusCode;
-                res.header(filterHeaders(req, response.headers));
-            }
-
-            res.status(code).send(body);
-        });
-    });
 
     var server = app.listen(process.env.PORT || 5000, argv.public ? undefined : 'localhost', function() {
         if (argv.public) {
