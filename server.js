@@ -49,14 +49,15 @@
     var app = express();
     app.use(compression());
 
-    app.use(express.static(__dirname + '/public'));
+    var ejs = require('ejs');
+    app.set('view engine', 'ejs');
+
+    app.use(express.static(__dirname + '/views'));
     app.use('/assets', express.static('static'));
     app.use(bodyParser.urlencoded({
         extended: false
     }));
     app.use(bodyParser.json());
-    var ejs = require('ejs');
-    app.set('view engine', 'ejs');
 
     function getRemoteUrlFromParam(req) {
         var remoteUrl = req.params[0];
@@ -95,15 +96,14 @@
 
     app.get('/', function(request, response) {
         var opts = {};
-        if (request.query.apitoken && request.query.projectid) {
-            opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid };
+        if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
+            opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid, 'diagramid': request.query.diagramid };
 
         } else {
-            opts = { 'apitoken': '0', 'projectid': '0' };
+            opts = { 'apitoken': '0', 'projectid': '0', 'diagramid': '0' };
 
         }
-
-        res.render('index', opts);
+        response.render('index', opts);
     });
 
 
