@@ -137,7 +137,7 @@
             });
 
         } else {
-            opts = { 'apitoken': '0', 'projectid': '0', 'diagramid': '0' };
+            opts = { 'apitoken': '0', 'projectid': '0', 'diagramid': '0', 'result': '0' };
             response.render('index', opts);
         }
 
