@@ -144,15 +144,15 @@
     });
 
 
-    var server = app.listen(process.env.PORT || 5000, argv.public ? undefined : 'localhost', function() {
-        if (argv.public) {
-            console.log('Cesium development server running publicly.  Connect to http://localhost:%d/', server.address().port);
-        } else {
-            console.log('Cesium development server running locally.  Connect to http://localhost:%d/', server.address().port);
-        }
-    });
+    // var server = app.listen(process.env.PORT || 5000, argv.public ? undefined : 'localhost', function() {
+    //     if (argv.public) {
+    //         console.log('Cesium development server running publicly.  Connect to http://localhost:%d/', server.address().port);
+    //     } else {
+    //         console.log('Cesium development server running locally.  Connect to http://localhost:%d/', server.address().port);
+    //     }
+    // });
 
-
+    var server = app.listen(process.env.PORT || 5000); // for Heroku
     server.on('error', function(e) {
         if (e.code === 'EADDRINUSE') {
             console.log('Error: Port %d is already in use, select a different port.', argv.port);
