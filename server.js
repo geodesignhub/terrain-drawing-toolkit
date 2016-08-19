@@ -99,7 +99,7 @@
         if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
             opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid, 'diagramid': request.query.diagramid };
 
-            var baseurl = 'https://www.geodesignhub.com/api/v1/projects/' + projectid + '/diagrams/' + diagramid + '/';
+            var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
             // var baseurl = 'http://local.dev:8000/api/v1/projects/';
             var apikey = request.query.apitoken;
             var cred = "Token " + apikey;
