@@ -6,117 +6,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <style>
-        body {
-            margin: 0px;
-        }
-        
-        #container {
-            /*margin: 20px auto;*/
-            height: 100%;
-            font-family: 'Open Sans', sans-serif;
-            /*background: #000000;*/
-        }
-        
-        #left {
-            width: 360px;
-            padding: 20px;
-            font-size: 12px;
-            float: left;
-            height: 100%
-        }
-        
-        #right {
-            overflow: auto;
-        }
-        
-        a {
-            color: #3a9bdc;
-        }
-        
-        textarea#gjTA {
-            width: 350px;
-            font-family: 'Open Sans', sans-serif;
-            height: 200px;
-            border: 3px solid #cccccc;
-            padding: 5px;
-            display: block;
-        }
-        
-        .button {
-            background-color: #4CAF50;
-            /* Green */
-            font-family: 'Open Sans', sans-serif;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-        
-        .buttongreen {
-            background-color: white;
-            color: black;
-            border: 2px solid #008CBA;
-        }
-        
-        ol {
-            list-style: none;
-            padding: 0;
-        }
-        
-        li {
-            counter-increment: item;
-            margin-bottom: 5px;
-        }
-        
-        li:before {
-            margin-right: 10px;
-            content: counter(item);
-            background: #7f8c8d;
-            border-radius: 100%;
-            color: white;
-            width: 1.4em;
-            text-align: center;
-            display: inline-block;
-        }
-        
-        .cameracontrols {
-            /*position: absolute;*/
-            left: 0;
-            z-index: 1000;
-            padding: 10px;
-        }
-        
-        .cameracontrols button {
-            width: 100px;
-            height: 40px;
-            margin: 10px 0 0 10px;
-            border: 1px solid #999999;
-            background: #ffffff;
-            /*opacity: 0.6;*/
-            /*border-radius: 2px;*/
-            font-size: 14px;
-            /*box-shadow: 0 0 5px #666666;*/
-            /*font-weight: bold;*/
-            text-align: center;
-        }
-        
-        table {
-            display: table;
-            border-collapse: separate;
-            border-spacing: 2px;
-            border-color: grey;
-            float: right;
-            font-size: 12px;
-        }
-    </style>
-        <script type="text/javascript" src="/assets/js/jquery/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+   
+    <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base.css">
+
     <link rel="stylesheet" href="/assets/js/humane/flatty.css">
+
+    <script type="text/javascript" src="/assets/js/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/js/geojsonlint/geojsonlint.js"></script>
     <script type="text/javascript" src="/assets/js/humane/humane.min.js">
     </script>
@@ -127,28 +25,29 @@
 </head>
 
 <body>
-    <div id="container">
-        <div id="left">
-            <h1>Geodesign Hub Terrain Viewer</h1>
-            <p>View designs synthesized on Geodesign Hub on a terrain.</p>
-            <h3>Usage Instructions:</h3>
+  <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-4 col-md-4 main">
+
+                <h1 class="page-header">Geodesign Hub Terrain Viewer</h1>
+                <section class="information">
+                <p class="description">This project uses <a href="http://cesiumjs.org" target="_blank">CesiumJS</a> library for visualization and design data from <a href="http://www.geodesignhub.com/">Geodesign Hub</a>. Please see the <a href="https://github.com/hrishiballal/GDHTerrainviewer/">GitHub repository</a> for more information.</p><br>
+            <div class="instruction">        
             <ol>
                 <li>Use the Geodeisgn Hub API <a href="http://www.geodesignsupport.com/kb/get-methods/" target="_blank">GET Synthesis JSON</a> call to get a design JSON. Sample GeoJSON is <a href="https://gist.github.com/hrishiballal/1c4bd9632dbff1a57d339ebf66167170">here</a>.</li>
                 <li>Paste the GeoJSON below</li>
                 <li>Click "Generate Scene" button</li>
             </ol>
+            </div>
             <textarea id="gjTA" name="styled-textarea">Paste Synthesis GeoJSON from Geodesign Hub here...</textarea>
             <br>
             <p>
                 <button class="button" onclick="submitGJ()">Generate Scene</button>
             </p>
-            <p>This project uses <a href="http://cesiumjs.org" target="_blank">Cesium</a> library for visualization and design data from <a href="http://www.geodesignhub.com/">Geodesign Hub</a>. Please see the <a href="https://github.com/hrishiballal/GDHTerrainviewer/">GitHub repository</a>                for more information.</p>
-            <br>
-            <!--end left-->
-        </div>
-        <div id="right">
-            <div id="cesiumContainer"></div>
-            <div id="toolbar">
+           
+            <br><p></p>
+                       <div id="toolbar">
                 <table>
                     <tbody data-bind="foreach: layers">
                         <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
@@ -160,8 +59,9 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
 
+                </section>
+                
             <br>
 
             <div id="ccontrols" class="cameracontrols">Camera Heading:
@@ -174,10 +74,16 @@
                 <button id="nw" onClick="setCameraHeadingPitch(this.id);">North West</button>
               </span>
             </div>
-            <!--end right-->
-        </div>
-        <!--container-->
-    </div>
+            </div>
+
+            </div>
+
+            <div class="col-sm-8 col-md-8 sidebar">
+                 <div id="cesiumContainer"></div>
+            </div>
+            </div>
+            </div>
+
     <script>
         function setCameraHeadingPitch(id) {
             var headingAngle;
