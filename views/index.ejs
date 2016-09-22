@@ -46,12 +46,12 @@
                 <button class="button" onclick="submitGJ()">Generate Scene</button>
             </p>
            
-            <br><p></p>
                        <div id="toolbar">
+                       <h4>Basemap</h4>
                 <table>
                     <tbody data-bind="foreach: layers">
                         <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
-                            <td> Choose a base map layer:</td>
+                            
                             <td>
                                 <span data-bind="text: name, visible: !$parent.isSelectableLayer($data)"></span>
                                 <select data-bind="visible: $parent.isSelectableLayer($data), options: $parent.baseLayers, optionsText: 'name', value: $parent.selectedLayer"></select>
@@ -62,9 +62,9 @@
 
                 </section>
                 
-            <br>
-
-            <div id="ccontrols" class="cameracontrols">Camera Heading:
+            
+            <div id="ccontrols" class="cameracontrols">
+            <h4>Camera Heading</h4>
                 <span class="default">
                 <button id="def" onClick="setCameraHeadingPitch(this.id);">Default</button>
                 <button id="td" onClick="setCameraHeadingPitch(this.id);">Top Down</button>

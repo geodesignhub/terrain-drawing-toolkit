@@ -38,7 +38,7 @@ h2 {
 
 .main {
     padding: 20px;
-    padding-bottom: 500px;
+    /*padding-bottom: 500px;*/
 }
 
 @media (min-width: 768px) {
