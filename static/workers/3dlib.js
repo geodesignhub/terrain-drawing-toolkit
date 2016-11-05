@@ -1,5 +1,4 @@
 importScripts('/assets/js/turfjs/turf.min.js');
-importScripts('/assets/js/rtree/rtree.min.js');
 
 function isOdd(num) {
     return num % 2;
