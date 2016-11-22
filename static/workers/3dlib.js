@@ -21,7 +21,7 @@ function generateFinal3DGeoms(constraintedModelDesigns) {
             var props = curFeat.properties;
             props.color = (props.color === undefined || props.color === null) ? '#808080' : props.color;
 
-            var extent = turf.extent(curFeat);
+            var extent = turf.bbox(curFeat);
             var cellWidth = 0.1;
             var units = 'kilometers';
             var squareGrid = turf.squareGrid(extent, cellWidth, units);
