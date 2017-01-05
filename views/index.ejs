@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-   
+
     <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/base.css">
@@ -25,47 +25,47 @@
 </head>
 
 <body>
-  <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
 
-            <div class="col-sm-4 col-md-4 main">
+            <div class="col-sm-2 col-md-2 main">
 
                 <h1 class="page-header">Geodesign Hub Terrain Viewer</h1>
                 <section class="information">
-                <p class="description">This project uses <a href="http://cesiumjs.org" target="_blank">CesiumJS</a> library for visualization and design data from <a href="http://www.geodesignhub.com/">Geodesign Hub</a>. Please see the <a href="https://github.com/hrishiballal/GDHTerrainviewer/">GitHub repository</a> for more information.</p><br>
-            <div class="instruction">        
-            <ol>
-                <li>Use the Geodeisgn Hub API <a href="http://www.geodesignsupport.com/kb/get-methods/" target="_blank">GET Synthesis JSON</a> call to get a design JSON. Sample GeoJSON is <a href="https://gist.github.com/hrishiballal/1c4bd9632dbff1a57d339ebf66167170">here</a>.</li>
-                <li>Paste the GeoJSON below</li>
-                <li>Click "Generate Scene" button</li>
-            </ol>
-            </div>
-            <textarea id="gjTA" name="styled-textarea">Paste Synthesis GeoJSON from Geodesign Hub here...</textarea>
-            <br>
-            <p>
-                <button class="button" onclick="submitGJ()">Generate Scene</button>
-            </p>
-           
-                       <div id="toolbar">
-                       <h4>Basemap</h4>
-                <table>
-                    <tbody data-bind="foreach: layers">
-                        <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
-                            
-                            <td>
-                                <span data-bind="text: name, visible: !$parent.isSelectableLayer($data)"></span>
-                                <select data-bind="visible: $parent.isSelectableLayer($data), options: $parent.baseLayers, optionsText: 'name', value: $parent.selectedLayer"></select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <p class="description">This project uses <a href="http://cesiumjs.org" target="_blank">CesiumJS</a> library for visualization and design data from <a href="http://www.geodesignhub.com/">Geodesign Hub</a>. Please see the <a href="https://github.com/hrishiballal/GDHTerrainviewer/">GitHub repository</a>                        for more information.</p><br>
+                    <div class="instruction">
+                        <ol>
+                            <li>Scroll or pan the globe to move the diagram</li>
+
+                            <li>Once the diagram is loaded, change the base map or camera heading using the controls below.</li>
+                        </ol>
+                    </div>
+                    <textarea id="gjTA" name="styled-textarea" style='display:none'>Paste Synthesis GeoJSON from Geodesign Hub here...</textarea>
+                    <br>
+                    <p>
+                        <button style="display:none" class="button" onclick="submitGJ()">Generate Scene</button>
+                    </p>
+
+                    <div id="toolbar">
+                        <h4>Basemap</h4>
+                        <table>
+                            <tbody data-bind="foreach: layers">
+                                <tr data-bind="css: { up: $parent.upLayer === $data, down: $parent.downLayer === $data }">
+
+                                    <td>
+                                        <span data-bind="text: name, visible: !$parent.isSelectableLayer($data)"></span>
+                                        <select data-bind="visible: $parent.isSelectableLayer($data), options: $parent.baseLayers, optionsText: 'name', value: $parent.selectedLayer"></select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                 </section>
-                
-            
-            <div id="ccontrols" class="cameracontrols">
-            <h4>Camera Heading</h4>
-                <span class="default">
+
+
+                <div id="ccontrols" class="cameracontrols">
+                    <h4>Camera Heading</h4>
+                    <span class="default">
                 <button id="def" onClick="setCameraHeadingPitch(this.id);">Default</button>
                 <button id="td" onClick="setCameraHeadingPitch(this.id);">Top Down</button>
                 <button id="ne" onClick="setCameraHeadingPitch(this.id);">North East</button>
@@ -73,16 +73,16 @@
                 <button id="sw" onClick="setCameraHeadingPitch(this.id);">South East</button>
                 <button id="nw" onClick="setCameraHeadingPitch(this.id);">North West</button>
               </span>
-            </div>
-            </div>
+                </div>
+                </div>
 
             </div>
 
-            <div class="col-sm-8 col-md-8 sidebar">
-                 <div id="cesiumContainer"></div>
+            <div class="col-sm-10 col-md-10 sidebar">
+                <div id="cesiumContainer"></div>
             </div>
-            </div>
-            </div>
+        </div>
+    </div>
 
     <script>
         function setCameraHeadingPitch(id) {
@@ -382,20 +382,19 @@
 
         }
     </script>
-     <script>
-        var apitoken = "<%= apitoken  %>";  //var test is now assigned to getTest which will only work on browsers
-        var projectid ="<%= projectid %>";  //var test is now assigned to getTest which will only work on browsers  
-        var diagramid ="<%= diagramid %>";  //var test is now assigned to getTest which will only work on browsers  
+    <script>
+        var apitoken = "<%= apitoken  %>"; //var test is now assigned to getTest which will only work on browsers
+        var projectid = "<%= projectid %>"; //var test is now assigned to getTest which will only work on browsers  
+        var diagramid = "<%= diagramid %>"; //var test is now assigned to getTest which will only work on browsers  
         var gjresults = <%- result %>;
-        (function(){
-            if (apitoken !=="0" && projectid !=="0" && diagramid !=="0") {
-                    // console.log(apitoken, projectid, diagramid);  
-                    if (gjresults.features.length > 0)
-                    {                  
-                        $("#gjTA").text(JSON.stringify(gjresults));
-                        submitGJ();
-                    }
-                }    
+        (function() {
+            if (apitoken !== "0" && projectid !== "0" && diagramid !== "0") {
+                // console.log(apitoken, projectid, diagramid);  
+                if (gjresults.features.length > 0) {
+                    $("#gjTA").text(JSON.stringify(gjresults));
+                    submitGJ();
+                }
+            }
         })();
     </script>
 </body>
