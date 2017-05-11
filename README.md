@@ -5,4 +5,4 @@ A plugin to view diagrams in Geodesign Hub with [CesiumJS](https://cesiumjs.org/
 A diagram draped on the terrain.
 ![terrain1](https://i.imgur.com/EGuvBUD.png)
 
-![terrain2] (https://i.imgur.com/BhL83ol.png)
+![terrain2](https://i.imgur.com/BhL83ol.png)
