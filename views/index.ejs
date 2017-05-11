@@ -350,7 +350,7 @@
             // var name = randomid();
             for (var x = 0; x < flen; x++) {
                 var curFeat = feats[x];
-                var curProps = curFeat.properties.getValue();
+                var curProps = curFeat.properties;
 
                 var projectorpolicy = curProps['areatype'];
                 var degreesArray = coordsToDegreesArray(curFeat['geometry']['coordinates'][0]); // todo create for multipolygons    
