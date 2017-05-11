@@ -350,11 +350,9 @@
             // var name = randomid();
             for (var x = 0; x < flen; x++) {
                 var curFeat = feats[x];
-                var curProps = curFeat.properties;
-
-                var projectorpolicy = curProps['areatype'];
+                var projectorpolicy = curFeat['properties']['areatype'];
                 var degreesArray = coordsToDegreesArray(curFeat['geometry']['coordinates'][0]); // todo create for multipolygons    
-                var rgb = hexToRgb(curProps.color);
+                var rgb = hexToRgb(curFeat.properties.color);
                 var color;
                 if (projectorpolicy === 'project') {
                     color = Cesium.Color.fromBytes(rgb.r, rgb.g, rgb.b, 90);
