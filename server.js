@@ -96,18 +96,19 @@
 
     app.get('/', function(request, response) {
         var opts = {};
-        if (request.query.apitoken && request.query.projectid && request.query.diagramid) {
-            opts = { 'apitoken': request.query.apitoken, 'projectid': request.query.projectid, 'diagramid': request.query.diagramid };
+        if (request.query.apitoken && request.query.projectid) {
+            opts = {'apitoken': request.query.apitoken, 'projectid': request.query.projectid};
 
-            var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-            // var baseurl = 'http://local.dev:8000/api/v1/projects/';
+            // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
+            var baseurl = 'http://local.dev:8000/api/v1/projects/';
             var apikey = request.query.apitoken;
             var cred = "Token " + apikey;
             var projectid = request.query.projectid;
-            var diagramid = request.query.diagramid;
-            var diagramdetailurl = baseurl + projectid + '/diagrams/' + diagramid + '/';
+            
+            var bounds_url = baseurl + projectid + '/bounds/' ;
+            var center_url = baseurl + projectid + '/center/' ;
 
-            var URLS = [diagramdetailurl];
+            var URLS = [bounds_url,center_url];
 
             async.map(URLS, function(url, done) {
                 req({
@@ -123,22 +124,20 @@
                     return done(null, JSON.parse(body));
                 });
             }, function(err, results) {
-                var gj = JSON.stringify(results[0]['geojson']);
-                // console.log(gj);
+                var bounds = results[0]['bounds'];
+                var center = results[1]['center'];
+                
 
                 if (err) return response.sendStatus(500);
-                // response.contentType('application/json');
-                // response.send({
-                // "status": 1,
-                // "results": results
-                // });
-                opts['result'] = gj;
+                
+                opts['bounds'] = bounds;
+                opts['center'] = center;
+                
                 response.render('index', opts);
             });
-
         } else {
-            opts = { 'apitoken': '0', 'projectid': '0', 'diagramid': '0', 'result': '0' };
-            response.render('index', opts);
+        
+            response.status(400).send('Incorrect project url');
         }
 
     });
@@ -152,7 +151,7 @@
     //     }
     // });
 
-    var server = app.listen(process.env.PORT || 5000); // for Heroku
+    var server = app.listen(process.env.PORT || 5001); // for Heroku
     server.on('error', function(e) {
         if (e.code === 'EADDRINUSE') {
             console.log('Error: Port %d is already in use, select a different port.', argv.port);
