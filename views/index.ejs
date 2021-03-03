@@ -9,44 +9,42 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
     <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="assets/css/base.css">
 
-    <link rel="stylesheet" href="/assets/js/humane/flatty.css">
+    <!-- <link rel="stylesheet" href="/assets/js/humane/flatty.css"> -->
     <style>
         @import url(/assets/Build/Cesium/Widgets/widgets.css);
     </style>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-sm">
+                <div id="cesiumContainer"></div>           
 
-            <div class="col-sm-4 col-md-4 main">
-                <h1 class="page-header">Geodesignhub Terrain Toolkit</h1>
-                <section class="information">
-                <p class="description">This project uses <a href="http://cesiumjs.org" target="_blank">CesiumJS</a> library for visualization and design data from <a href="http://www.geodesignhub.com/">Geodesignhub</a>. Please see the <a href="https://github.com/geodesignhub/terrain-drawing-toolkit">GitHub repository</a> for more information.</p>
-                </section>
-            </div>
-
-            <div class="col-sm-8 col-md-8 sidebar">
-                <div id="cesiumContainer"></div>
-            </div>
-        </div>
     </div>
 
     <script src="/assets/js/jquery/jquery-3.6.0.slim.min.js"></script>
     <script src="/assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="/assets/js/humane/humane.min.js">
+    <!-- <script type="text/javascript" src="/assets/js/humane/humane.min.js"> -->
     </script>
     <script src="/assets/Build/Cesium/Cesium.js"></script>
     <script>
         var viewer = new Cesium.Viewer("cesiumContainer", {
             selectionIndicator: false,
             infoBox: false,
-            terrainProvider: Cesium.createWorldTerrain(),
+            baseLayerPicker : false,
+            animation: false,
+            navigationHelpButton : false, 
+            fullscreenButton : false,
+            geocoder :false,
+            homeButton : false,
+            timeline: false,
+            terrainProvider: Cesium.createWorldTerrain({
+                requestVertexNormals: true
+            }),
         });
-
+        viewer.scene.globe.enableLighting = true;
+        // const osmBuildings = viewer.scene.primitives.add(Cesium.createOsmBuildings());
         if (!viewer.scene.pickPositionSupported) {
             window.alert("This browser does not support pickPosition.");
         }
@@ -59,7 +57,7 @@
             var point = viewer.entities.add({
                 position: worldPosition,
                 point: {
-                    color: Cesium.Color.WHITE,
+                    color: Cesium.Color.RED,
                     pixelSize: 5,
                     heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 },
@@ -83,7 +81,7 @@
                     polygon: {
                         hierarchy: positionData,
                         material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color.WHITE.withAlpha(0.7)
+                            Cesium.Color.RED.withAlpha(0.7)
                         ),
                     },
                 });
@@ -141,10 +139,6 @@
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
         // Zoom in to an area with mountains
-        viewer.camera.lookAt(
-            Cesium.Cartesian3.fromDegrees(-122.2058, 46.1955, 1000.0),
-            new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
-        );
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
         var bounds = "<%= bounds %>";
         var center = "<%= center %>";
@@ -153,6 +147,10 @@
         let lng = split_lat_lng[0];
         var headingAngle = Cesium.Math.toRadians(20.0);
         var pitchAngle = Cesium.Math.toRadians(-45.0);
+        // viewer.camera.lookAt(
+        //     Cesium.Cartesian3.fromDegrees(lng, lat, 1500.0),
+        //     new Cesium.Cartesian3(1000.0, 1000.0, 2000.0)
+        // );
         viewer.camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(lng, lat, 5000.0),
             orientation: {

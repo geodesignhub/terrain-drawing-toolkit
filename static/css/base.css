@@ -9,3 +9,17 @@ h2,
 h1 {
     font-family: 'Raleway', sans-serif;
 }
+.fullSize {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    width: 100%;
+    height: 100%
+}
+
+#cesiumContainer{
+    height:800px;
+    width: 100%;
+}

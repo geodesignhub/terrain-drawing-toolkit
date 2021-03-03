@@ -100,7 +100,7 @@
             opts = {'apitoken': request.query.apitoken, 'projectid': request.query.projectid};
 
             // var baseurl = 'https://www.geodesignhub.com/api/v1/projects/';
-            var baseurl = 'http://local.dev:8000/api/v1/projects/';
+            var baseurl = 'http://local.test:8000/api/v1/projects/';
             var apikey = request.query.apitoken;
             var cred = "Token " + apikey;
             var projectid = request.query.projectid;
@@ -124,11 +124,12 @@
                     return done(null, JSON.parse(body));
                 });
             }, function(err, results) {
+                
+                if (err) return response.sendStatus(500);
+                
                 var bounds = results[0]['bounds'];
                 var center = results[1]['center'];
                 
-
-                if (err) return response.sendStatus(500);
                 
                 opts['bounds'] = bounds;
                 opts['center'] = center;
