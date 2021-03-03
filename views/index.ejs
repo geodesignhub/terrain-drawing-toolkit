@@ -7,27 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-
-    <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
+    <style>        
+        @import url(/assets/Build/Cesium/Widgets/widgets.css);
+    </style>
     <link rel="stylesheet" type="text/css" href="assets/css/base.css">
 
     <!-- <link rel="stylesheet" href="/assets/js/humane/flatty.css"> -->
-    <style>
-        @import url(/assets/Build/Cesium/Widgets/widgets.css);
-    </style>
+    <script src="/assets/Build/Cesium/Cesium.js"></script>
 </head>
 
 <body>
-    <div class="container-sm">
-                <div id="cesiumContainer"></div>           
+        <div id="cesiumContainer" class="fullSize"></div>           
+    
 
-    </div>
-
-    <script src="/assets/js/jquery/jquery-3.6.0.slim.min.js"></script>
-    <script src="/assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- <script type="text/javascript" src="/assets/js/humane/humane.min.js"> -->
-    </script>
-    <script src="/assets/Build/Cesium/Cesium.js"></script>
+    <!-- <script src="/assets/js/jquery/jquery-3.6.0.slim.min.js"></script> 
+    <script src="/assets/js/bootstrap/bootstrap.bundle.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/assets/js/humane/humane.min.js"> </script> -->
+    
     <script>
         var viewer = new Cesium.Viewer("cesiumContainer", {
             selectionIndicator: false,
@@ -43,7 +40,7 @@
                 requestVertexNormals: true
             }),
         });
-        viewer.scene.globe.enableLighting = true;
+        // viewer.scene.globe.enableLighting = true;
         // const osmBuildings = viewer.scene.primitives.add(Cesium.createOsmBuildings());
         if (!viewer.scene.pickPositionSupported) {
             window.alert("This browser does not support pickPosition.");
@@ -54,6 +51,7 @@
         );
 
         function createPoint(worldPosition) {
+            console.log(worldPosition)
             var point = viewer.entities.add({
                 position: worldPosition,
                 point: {
@@ -96,6 +94,7 @@
             // We use `viewer.scene.pickPosition` here instead of `viewer.camera.pickEllipsoid` so that
             // we get the correct point when mousing over terrain.
             var earthPosition = viewer.scene.pickPosition(event.position);
+            console.log(earthPosition)
             // `earthPosition` will be undefined if our mouse is not over the globe.
             if (Cesium.defined(earthPosition)) {
                 if (activeShapePoints.length === 0) {
@@ -115,6 +114,7 @@
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
         handler.setInputAction(function (event) {
+            
             if (Cesium.defined(floatingPoint)) {
                 var newPosition = viewer.scene.pickPosition(event.endPosition);
                 if (Cesium.defined(newPosition)) {
@@ -139,26 +139,31 @@
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
         // Zoom in to an area with mountains
+        // var bounds = "<%= bounds %>";
+        // var center = "<%= center %>";
+        // let split_lat_lng = center.split(',');
+        // let lat = split_lat_lng[1];
+        // let lng = split_lat_lng[0];
+        viewer.camera.lookAt(
+          Cesium.Cartesian3.fromDegrees(-122.2058, 46.1955, 1500.0),
+          new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
+        );
+        
+        // var headingAngle = Cesium.Math.toRadians(20.0);
+        // var pitchAngle = Cesium.Math.toRadians(-45.0);
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
-        var bounds = "<%= bounds %>";
-        var center = "<%= center %>";
-        let split_lat_lng = center.split(',');
-        let lat = split_lat_lng[1];
-        let lng = split_lat_lng[0];
-        var headingAngle = Cesium.Math.toRadians(20.0);
-        var pitchAngle = Cesium.Math.toRadians(-45.0);
         // viewer.camera.lookAt(
-        //     Cesium.Cartesian3.fromDegrees(lng, lat, 1500.0),
-        //     new Cesium.Cartesian3(1000.0, 1000.0, 2000.0)
+        //     Cesium.Cartesian3.fromDegrees(lng, lat, 1000.0),
+        //   new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
         // );
-        viewer.camera.setView({
-            destination: Cesium.Cartesian3.fromDegrees(lng, lat, 5000.0),
-            orientation: {
-                heading: headingAngle,
-                pitch: pitchAngle,
-                roll: 0.0
-            }
-        });
+        // viewer.camera.setView({
+        //     destination: Cesium.Cartesian3.fromDegrees(lng, lat,1500.0),
+        //     orientation: {
+        //         heading: headingAngle,
+        //         pitch: pitchAngle,
+        //         roll: 0.0
+        //     }
+        // });
     </script>
 </body>
 
