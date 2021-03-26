@@ -139,31 +139,31 @@
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
         // Zoom in to an area with mountains
-        // var bounds = "<%= bounds %>";
-        // var center = "<%= center %>";
-        // let split_lat_lng = center.split(',');
-        // let lat = split_lat_lng[1];
-        // let lng = split_lat_lng[0];
-        viewer.camera.lookAt(
-          Cesium.Cartesian3.fromDegrees(-122.2058, 46.1955, 1500.0),
-          new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
-        );
+        var bounds = "<%= bounds %>";
+        var center = "<%= center %>";
+        let split_lat_lng = center.split(',');
+        let lat = split_lat_lng[1];
+        let lng = split_lat_lng[0];
+        // viewer.camera.lookAt(
+        //   Cesium.Cartesian3.fromDegrees(-122.2058, 46.1955, 1500.0),
+        //   new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
+        // );
         
-        // var headingAngle = Cesium.Math.toRadians(20.0);
-        // var pitchAngle = Cesium.Math.toRadians(-45.0);
+        var headingAngle = Cesium.Math.toRadians(20.0);
+        var pitchAngle = Cesium.Math.toRadians(-45.0);
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
         // viewer.camera.lookAt(
         //     Cesium.Cartesian3.fromDegrees(lng, lat, 1000.0),
         //   new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
         // );
-        // viewer.camera.setView({
-        //     destination: Cesium.Cartesian3.fromDegrees(lng, lat,1500.0),
-        //     orientation: {
-        //         heading: headingAngle,
-        //         pitch: pitchAngle,
-        //         roll: 0.0
-        //     }
-        // });
+        viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(lng, lat,1500.0),
+            orientation: {
+                heading: headingAngle,
+                pitch: pitchAngle,
+                roll: 0.0
+            }
+        });
     </script>
 </body>
 
