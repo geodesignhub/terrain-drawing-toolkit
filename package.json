@@ -29,7 +29,7 @@
         "express": "^4.17.1",
         "request": "^2.88.2",
         "requirejs": "^2.3.6",
-        "yargs": "^4.8.1"
+        "yargs": "^17.6.2"
     },
     "scripts": {
         "start": "node server.js"
